@@ -6,14 +6,14 @@ namespace Mascotas.UI.Console;
 public class Controller 
 {
     private View _view;
-    private Manager _manager;
+    private Sys _sys;
     private Dictionary<string, Action> _useCases;
     //private Mapper _mapper;
 
-    public Controller(View view, Manager manager/*, Mapper mapper*/)
+    public Controller(View view, Sys sys/*, Mapper mapper*/)
     {
         _view = view;
-        _manager = manager;
+        _sys = sys;
         //_mapper = mapper;
         _useCases = new Dictionary<string, Action>() {
             /*
