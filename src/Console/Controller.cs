@@ -1,5 +1,5 @@
 using static System.Console;
-using Mascotas.Models;
+//using Mascotas.Models;
 
 namespace Mascotas.UI.Console;
 
@@ -8,14 +8,15 @@ public class Controller
     private View _view;
     private Manager _manager;
     private Dictionary<string, Action> _useCases;
-    private Mapper _mapper;
+    //private Mapper _mapper;
 
-    public Controller(View view, Manager manager, Mapper mapper)
+    public Controller(View view, Manager manager/*, Mapper mapper*/)
     {
         _view = view;
         _manager = manager;
-        _mapper = mapper;
+        //_mapper = mapper;
         _useCases = new Dictionary<string, Action>() {
+            /*
             { "Alta de Socio",    AddMember },
             { "Baja de Socio",    RemoveMember },
             { "Alta de Mascota",  AddPet },
@@ -26,6 +27,7 @@ public class Controller
             { "Comprar Mascota",  BuyPet },
             { "Mostrar Mascotas", ShowPets },
             { "Mostrar Socios",   ShowMembers }
+            */
         };
     }
 
@@ -48,6 +50,7 @@ public class Controller
         }
     }
 
+    /*
     private void AddMember() 
     {
         try
@@ -266,4 +269,5 @@ public class Controller
             _view.Show(e.Message, ConsoleColor.DarkRed);
         }
     }
+    */
 }
