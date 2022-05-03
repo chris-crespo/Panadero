@@ -6,6 +6,7 @@ using Mascotas.UI.Console;
 var view = new View();
 // var system = new Manager(memberRepo, petRepo, specieRepo);
 // var mapper = new Mapper();
+var system = new Sys();
 var controller = new Controller(view, system/*, mapper*/);
 
 #if !check

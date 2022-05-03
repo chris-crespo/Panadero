@@ -1,29 +1,17 @@
-﻿using Mascotas.Models;
+﻿/*
+using Mascotas.Models;
 using Mascotas.Data;
+*/
 
 namespace Mascotas;
 
-public class Manager
+public class Sys
 {
-    PetRepo    PetRepo;
-    MemberRepo MemberRepo; 
-    SpecieRepo SpecieRepo;
-
-    public List<Member> Members { get; }
-    public List<Pet>    Pets    { get; }
-    public List<Specie> Species { get; }
-
-    public Manager(MemberRepo memberRepo, PetRepo petRepo, SpecieRepo specieRepo)
+    public Sys()
     {
-        MemberRepo = memberRepo;
-        PetRepo    = petRepo;
-        SpecieRepo = specieRepo;
-
-        Members = memberRepo.Read();
-        Species = specieRepo.Read();
-        Pets    = petRepo.Read();
     }
 
+    /*
     public void AddMember(Member m) 
     {
         Members.Add(m);
@@ -80,4 +68,5 @@ public class Manager
         Pets.Find(p => p.ID.Equals(petID)).MemberID = ownerID;
         PetRepo.Save(Pets);
     }
+    */
 }
