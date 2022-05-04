@@ -3,11 +3,14 @@ using static System.Console;
 
 namespace Mascotas.UI.Console;
 
+enum TerminalMode { None, B, D };
+
 public class Controller 
 {
     private View _view;
     private Sys _sys;
-    private Dictionary<string, Action> _useCases;
+    private Dictionary<(string title, TerminalMode mode), Action> _useCases;
+    private TerminalMode _mode;
     //private Mapper _mapper;
 
     public Controller(View view, Sys sys/*, Mapper mapper*/)
@@ -15,40 +18,88 @@ public class Controller
         _view = view;
         _sys = sys;
         //_mapper = mapper;
-        _useCases = new Dictionary<string, Action>() {
-            /*
-            { "Alta de Socio",    AddMember },
-            { "Baja de Socio",    RemoveMember },
-            { "Alta de Mascota",  AddPet },
-            { "Baja de Mascota",  RemovePet },
-            { "Añadir Especie",   AddSpecie },
-            { "Eliminar Especie", RemoveSpecie },
-            { "Mostrar Especies", ShowSpecies },
-            { "Comprar Mascota",  BuyPet },
-            { "Mostrar Mascotas", ShowPets },
-            { "Mostrar Socios",   ShowMembers }
-            */
+        _mode = TerminalMode.None;
+        _useCases = new Dictionary<(string, TerminalMode), Action>() {
+            { ("Vender producto",            TerminalMode.D),  SellProduct },
+            { ("Añadir producto",            TerminalMode.B),  AddProduct },
+            { ("Eliminar producto",          TerminalMode.B),  RemoveProduct },
+            { ("Añadir pedido",              TerminalMode.D),  AddOrder },
+            { ("Eliminar pedido",            TerminalMode.D),  RemoveOrder },
+            { ("Mostrar producción del día", TerminalMode.B),  ShowTodaysProduction },
+            { ("Mostrar ingresos del mes",   TerminalMode.D),  ShowIncome }
         };
+    }
+
+    private void chooseTerminalMode()
+    {
+        var modes = TerminalMode.GetValues(typeof(String)).Cast<String>().ToList();
+        while (_mode == TerminalMode.None)
+        {
+            try
+            {
+                _view.ClearScreen();
+
+                var mode = _view.TryGetListItem("Modo", modes, "Selecciona el modo");
+                _view.Show("");
+            }
+            catch { return; }
+        }
     }
 
     public void Run() 
     {
-        var menu = _useCases.Keys.ToList<String>();
+        chooseTerminalMode();
+        var menu = _useCases.Keys.Select(t => t.title).ToList<String>();
         while (true) 
         {
             try 
             {
                 _view.ClearScreen();
 
-                var key = _view.TryGetListItem("Menu", menu, "Selecciona una opcion");
+                var option = _view.TryGetListItem("Menu", menu, "Selecciona una opcion");
                 _view.Show("");
 
-                _useCases[key].Invoke();
+                var useCase = _useCases.FirstOrDefault(k => k.Key.title == option).Value;
+                useCase.Invoke();
+
                 _view.ShowAndReturn("Pulsa <Return> para continuar", ConsoleColor.DarkGray);
             }
             catch { return; }
         }
     }
+
+    private void SellProduct() 
+    {
+        try
+        {
+            //var products = _sys.Products;
+        }
+        catch (Exception e)
+        {
+            _view.Show($"UC: {e.Message}");
+        }
+    }
+
+    private void AddProduct()
+    {}
+
+    private void RemoveProduct()
+    {}
+
+    private void AddOrder()
+    {}
+
+    private void ModifyOrder()
+    {}
+
+    private void RemoveOrder()
+    {}
+
+    private void ShowTodaysProduction()
+    {}
+
+    private void ShowIncome()
+    {}
 
     /*
     private void AddMember() 
