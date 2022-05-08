@@ -4,7 +4,7 @@ public class Product
 {
     public string  Name  { get; }
     public decimal Price { get; }
-    public int     Units { get; }
+    public int     Units { get; set; }
 
     public Product(string name, decimal price, int units)
     {

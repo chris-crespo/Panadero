@@ -16,14 +16,24 @@ public class Sys
         Products = productRepo.Read();
     }
 
+    public void RemoveProduct(string name) 
+    {
+        Products.RemoveAll(p => p.Name == name);
+        ProductRepo.Save(Products);
+    }
+
     public void AddOrModifyProduct(Product product)
     {
-        Products.RemoveAll(p => p.Name.Equals(product.Name));
+        Products.RemoveAll(p => p.Name == product.Name);
         Products.Add(product);
         ProductRepo.Save(Products);
     }
 
-
+    public decimal SellProduct(string name, int units) 
+    {
+        var product = Products.Find(p => p.Name == name);
+        return product!.Price * units;
+    }
     /*
     public void AddMember(Member m) 
     {

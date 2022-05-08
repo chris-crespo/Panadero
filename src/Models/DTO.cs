@@ -1,52 +1,29 @@
-namespace Mascotas.Models;
+namespace Panadero.Models;
 
-public class MemberDTO
+public class BakerProductDTO
 {
-    public Guid   ID     { get; }
-    public string Name   { get; }
-    public char   Gender { get; }
+    public string Name  { get; }
+    public int    Units { get; }
 
-    public MemberDTO(Guid id, string name, char gender) 
+    public BakerProductDTO(string name, int units)
     {
-        ID     = id;
-        Name   = name;
-        Gender = gender;
+        Name  = name;
+        Units = units;
     }
 
-    public override string ToString() => $"{Name}, {Gender}";
+    public override string ToString() => $"{Name}\t {Units} unidades";
 }
 
-public class PetDTO
+public class AssistantProductDTO
 {
-    public   Guid     ID      { get; }
-    public   string   Name    { get; }
-    public   string   Specie  { get; }
-    public   int      Age     { get; }
-    public   string?  Member  { get; }
+    public string  Name  { get; }
+    public decimal Price { get; }
 
-    public PetDTO(Guid id, string name, string specie, DateTime birthdate, string? member)
+    public AssistantProductDTO(string name, decimal price)
     {
-        ID        = id;
-        Name      = name;
-        Specie    = specie;
-        Age       = DateTime.Today.Year - birthdate.Year;
-        Member    = member;
+        Name  = name;
+        Price = price;
     }
 
-    public override string ToString()
-        => $"{Name}, {Specie}, {Age} años, ({Member ?? "Sin dueño"})";
-}
-
-public class SpecieDTO
-{
-    public Guid   ID   { get; }
-    public string Name { get; }
-
-    public SpecieDTO(Guid id, string name)
-    {
-        ID   = id;
-        Name = name;
-    }
-
-    public override string ToString() => Name;
+    public override string ToString() => $"{Name} {Price}€";
 }
