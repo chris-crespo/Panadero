@@ -1,4 +1,4 @@
-namespace Mascotas.Data;
+namespace Panadero.Data;
 
 public interface IRepository<T>
 {

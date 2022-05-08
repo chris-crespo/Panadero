@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using static System.Console;
 
-namespace Mascotas.UI.Console;
+namespace Panadero.UI.Console;
 
 public class View 
 {

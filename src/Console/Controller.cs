@@ -1,9 +1,9 @@
 using static System.Console;
-//using Mascotas.Models;
+using Panadero.Models;
 
-namespace Mascotas.UI.Console;
+namespace Panadero.UI.Console;
 
-enum TerminalMode { None, B, D };
+enum TerminalMode { None, Assistant, Baker };
 
 public class Controller 
 {
@@ -20,42 +20,29 @@ public class Controller
         //_mapper = mapper;
         _mode = TerminalMode.None;
         _useCases = new Dictionary<(string, TerminalMode), Action>() {
-            { ("Vender producto",            TerminalMode.D),  SellProduct },
-            { ("Añadir producto",            TerminalMode.B),  AddProduct },
-            { ("Eliminar producto",          TerminalMode.B),  RemoveProduct },
-            { ("Añadir pedido",              TerminalMode.D),  AddOrder },
-            { ("Eliminar pedido",            TerminalMode.D),  RemoveOrder },
-            { ("Mostrar producción del día", TerminalMode.B),  ShowTodaysProduction },
-            { ("Mostrar ingresos del mes",   TerminalMode.D),  ShowIncome }
+            { ("Panadero",                   TerminalMode.None),         SetBakerMode },
+            { ("Dependiente",                TerminalMode.None),         SetAssistantMode },
+
+            { ("Añadir producto",            TerminalMode.Baker),        AddProduct },
+            { ("Eliminar producto",          TerminalMode.Baker),        RemoveProduct },
+            { ("Mostrar producción del día", TerminalMode.Baker),        ShowTodaysProduction },
+
+            { ("Vender producto",            TerminalMode.Assistant),    SellProduct },
+            { ("Añadir pedido",              TerminalMode.Assistant),    AddOrder },
+            { ("Eliminar pedido",            TerminalMode.Assistant),    RemoveOrder },
+            { ("Mostrar ingresos del mes",   TerminalMode.Assistant),    ShowIncome }
         };
-    }
-
-    private void chooseTerminalMode()
-    {
-        var modes = TerminalMode.GetValues(typeof(String)).Cast<String>().ToList();
-        while (_mode == TerminalMode.None)
-        {
-            try
-            {
-                _view.ClearScreen();
-
-                var mode = _view.TryGetListItem("Modo", modes, "Selecciona el modo");
-                _view.Show("");
-            }
-            catch { return; }
-        }
     }
 
     public void Run() 
     {
-        chooseTerminalMode();
-        var menu = _useCases.Keys.Select(t => t.title).ToList<String>();
         while (true) 
         {
             try 
             {
                 _view.ClearScreen();
 
+                var menu = getMenuOptions();
                 var option = _view.TryGetListItem("Menu", menu, "Selecciona una opcion");
                 _view.Show("");
 
@@ -68,6 +55,35 @@ public class Controller
         }
     }
 
+    private List<String> getMenuOptions() => _useCases.Keys
+        .Where(t => t.mode == _mode)
+        .Select(t => t.title)
+        .ToList<String>();
+
+    private void SetAssistantMode() => _mode = TerminalMode.Assistant;
+    private void SetBakerMode() => _mode = TerminalMode.Baker;
+
+    private void AddProduct()
+    {
+        try 
+        {
+            var product = new Product(
+                name:  _view.TryGetInput<string>("Nombre"),
+                price: _view.TryGetInput<decimal>("Precio"),
+                units: _view.TryGetInput<int>("Unidades")
+            );
+
+            _sys.AddOrModifyProduct(product);
+        }
+        catch (Exception e)
+        {
+            _view.Show(e.Message, ConsoleColor.DarkRed);
+        }
+    }
+
+    private void RemoveProduct()
+    {}
+
     private void SellProduct() 
     {
         try
@@ -79,12 +95,6 @@ public class Controller
             _view.Show($"UC: {e.Message}");
         }
     }
-
-    private void AddProduct()
-    {}
-
-    private void RemoveProduct()
-    {}
 
     private void AddOrder()
     {}

@@ -1,15 +1,28 @@
-﻿/*
-using Mascotas.Models;
-using Mascotas.Data;
-*/
+﻿using Panadero.Models;
+using Panadero.Data;
 
-namespace Mascotas;
+namespace Panadero;
 
 public class Sys
 {
-    public Sys()
+    ProductRepo ProductRepo;
+
+    public List<Product> Products { get; }
+
+    public Sys(ProductRepo productRepo)
     {
+        ProductRepo = productRepo;
+
+        Products = productRepo.Read();
     }
+
+    public void AddOrModifyProduct(Product product)
+    {
+        Products.RemoveAll(p => p.Name.Equals(product.Name));
+        Products.Add(product);
+        ProductRepo.Save(Products);
+    }
+
 
     /*
     public void AddMember(Member m) 
