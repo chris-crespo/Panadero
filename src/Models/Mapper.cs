@@ -11,4 +11,6 @@ public class Mapper
     public OrderDTO MapOrder(Order order)
         => new OrderDTO(order.Id, order.Client, order.OrderDate);
 
+    public SaleDTO MapSale(Sale sale)
+        => new SaleDTO(sale.Product, sale.Units, sale.Price);
 }

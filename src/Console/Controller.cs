@@ -63,7 +63,8 @@ public class Controller
     private void SetAssistantMode() => _mode = TerminalMode.Assistant;
     private void SetBakerMode() => _mode = TerminalMode.Baker;
 
-    private void handled(Action fn, Action<Exception> handler) {
+    private void handled(Action fn, Action<Exception> handler) 
+    {
         try 
         {
             fn();
@@ -98,12 +99,15 @@ public class Controller
         => withDefaultHandler(() => _sys.RemoveProduct(tryGetProduct(p => p.Name)));
 
     private void ShowTodaysProduction() => withDefaultHandler(() => {
-        var products = _sys.Products
+        var orderedProducts = _sys.Orders
+            .Where(order => order.DeliverDate == null || order.DeliverDate?.Date == DateTime.Today)
+            .SelectMany(order => order.Products);
+
+        var all = _sys.Products.Concat(orderedProducts)
             .Select(_mapper.MapProductForBaker)
-            .Select(p => p.ToString())
             .ToList();
 
-        _view.ShowList("Producción", products);
+        _view.ShowList("Producción", all);
     });
 
     private void SellProduct() => withDefaultHandler(() => {
@@ -122,7 +126,6 @@ public class Controller
         }
 
         WriteLine($"Total: {total}€");
-        // TODO: store it.
     });
 
     private void AddOrder() => withDefaultHandler(() => {
@@ -143,25 +146,63 @@ public class Controller
             if (c == 'N') break;
         }
 
-        var id = new Guid();
+        var id = Guid.NewGuid();
         var orderDate = DateTime.Now;
 
-        WriteLine($"Total: {products.Sum(product => product.Price * product.Units)}");
-        var order = new Order(id, client, products, orderDate, null);
+        var daily = _view.TryGetChar("Diario (S/N)", "SN", 'S');
+        DateTime? deliverDate = daily == 'N'
+            ? _view.TryGetDate("Fecha de entrega")
+            : null;
+
+        WriteLine($"Total: {products.Sum(product => product.Price * product.Units)}€");
+        var order = new Order(id, client, products, orderDate, deliverDate);
         _sys.AddOrder(order);
     });
 
     private void RemoveOrder() => withDefaultHandler(() => {
         var orders = _sys.Orders
-            .Select(_mapper.MapOrders)
-            .Select(order => order.ToString())
+            .Select(_mapper.MapOrder)
             .ToList();
 
-        _view.TryGetListItem("Pedidos", orders, "Selecciona un pedido");
-
-
+        if (orders.Count == 0)
+            _view.Show("No hay pedidos registrados"); 
+        else {
+            var order = _view.TryGetListItem("Pedidos", orders, "Selecciona un pedido");
+            _sys.RemoveOrdersWithId(order.Id);
+        }
     });
 
-    private void ShowIncome()
-    {}
+    private void ShowIncome() => withDefaultHandler(() => {
+        var thisYear = DateTime.Now.Year;
+        var thisMonth = DateTime.Now.Month;
+        var thisDay = DateTime.Now.Day;
+
+        var sales = _sys.Sales
+            .Where(sale => sale.Date.Year == thisYear && sale.Date.Month == thisMonth);
+
+        var dailyOrders = _sys.Orders
+            
+        var orders = _sys.Orders
+            .Where(order => {
+                var year = order.DeliverDate?.Year;
+                var month = order.DeliverDate?.Month;
+                var day = order.DeliverDate?.Day;
+
+                return order.DeliverDate == null year == thisYear && month == thisMonth && day <= thisDay;
+            })
+            .SelectMany(order => order.Products(product => 
+                    new Sale(product.Name, product.Units, product.Price * product.Units)));
+
+        var all = sales.Concat(orders)
+            .Select(_mapper.MapSale)
+            .ToList();
+
+        if (sales.Count == 0)
+            _view.Show("Aún no se ha registrado ningún ingreso");
+        else 
+        {
+            _view.ShowList("Ingresos del mes", all);
+            _view.Show($"Total: {all.Sum(sale => sale.Price)}");
+        }
+    });
 }

@@ -21,10 +21,9 @@ public record Order(Guid Id, string Client, List<Product> Products, DateTime Ord
     {
         var (id, lines) = order;
         var fields = lines[0].Split(",");
-        Console.WriteLine(string.Join(",", fields));
         var client = fields[0];
         var orderDate = DateTime.Parse(fields[4]);
-        DateTime? deliverDate = fields.Length == 6 ? DateTime.Parse(fields[5]) : null;
+        DateTime? deliverDate = fields[5].Length > 0 ? DateTime.Parse(fields[5]) : null;
 
         return new Order(
             Id: Guid.Parse(id),
@@ -43,8 +42,23 @@ public record Order(Guid Id, string Client, List<Product> Products, DateTime Ord
     }
 
     public override string ToString() 
-        => string.Join(",", 
+        => string.Join("\n", 
             Products.Select(product 
                 => $"{Id},{Client},{product},{OrderDate},{DeliverDate?.ToString() ?? ""}"));
+}
 
+public record Sale(string Product, int Units, decimal Price, DateTime Date)
+{
+    public static Sale Parse(string str)
+    {
+        var fields = str.Split(",");
+        return new Sale(
+            Product: fields[0],
+            Units: int.Parse(fields[1]),
+            Price: decimal.Parse(fields[2]),
+            Date: DateTime.Parse(fields[3])
+        );
+    }
+
+    public override string ToString() => $"{Product},{Units},{Price},{Date}";
 }

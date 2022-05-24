@@ -1,29 +1,21 @@
 namespace Panadero.Models;
 
-public class BakerProductDTO
+public record BakerProductDTO(string Name, int Units) 
 {
-    public string Name  { get; }
-    public int    Units { get; }
-
-    public BakerProductDTO(string name, int units)
-    {
-        Name  = name;
-        Units = units;
-    }
-
-    public override string ToString() => $"{Name}\t {Units} unidades";
+    public override string ToString() => $"{Name} - {Units} unidades";
 }
 
-public class AssistantProductDTO
+public record AssistantProductDTO(string Name, decimal Price)
 {
-    public string  Name  { get; }
-    public decimal Price { get; }
-
-    public AssistantProductDTO(string name, decimal price)
-    {
-        Name  = name;
-        Price = price;
-    }
-
     public override string ToString() => $"{Name} {Price}€";
+}
+
+public record OrderDTO(Guid Id, string Client, DateTime OrderDate)
+{
+    public override string ToString() => $"{Client} - {OrderDate}";
+}
+
+public record SaleDTO(string Product, int Units, decimal Price)
+{
+    public override string ToString() => $"{Product} ({Units}) {Price}€";
 }

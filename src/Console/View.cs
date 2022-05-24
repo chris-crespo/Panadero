@@ -103,7 +103,7 @@ public class View
             try
             {
                 var date = DateTime.Parse(input);
-                if (date > DateTime.Now)
+                if (date.Date <= DateTime.Now.Date)
                     throw new Exception();
 
                 return date;
