@@ -79,9 +79,9 @@ public class Controller
 
     private void AddProduct() => withDefaultHandler(() => {
         var product = new Product(
-            name:  _view.TryGetInput<string>("Nombre"),
-            price: _view.TryGetInput<decimal>("Precio"),
-            units: _view.TryGetInput<int>("Unidades")
+            Name:  _view.TryGetInput<string>("Nombre"),
+            Price: _view.TryGetInput<decimal>("Precio"),
+            Units: _view.TryGetInput<int>("Unidades")
         );
 
         _sys.AddOrModifyProduct(product);
@@ -120,16 +120,47 @@ public class Controller
             var c = _view.TryGetChar("Añadir otro producto (S/N)", "SN", 'S');
             if (c == 'N') break;
         }
+
+        WriteLine($"Total: {total}€");
+        // TODO: store it.
     });
 
-    private void AddOrder()
-    {}
+    private void AddOrder() => withDefaultHandler(() => {
+        var client = _view.TryGetInput<string>("Cliente");
+        var products = new List<Product>();
+        
+        while (true)
+        {
+            var product = new Product(
+                Name: _view.TryGetInput<string>("Producto"),
+                Units: _view.TryGetInput<int>("Unidades"),
+                Price: _view.TryGetInput<decimal>("Precio")
+            );
 
-    private void ModifyOrder()
-    {}
+            products.Add(product);
 
-    private void RemoveOrder()
-    {}
+            var c = _view.TryGetChar("Añadir otro producto (S/N)", "SN", 'S');
+            if (c == 'N') break;
+        }
+
+        var id = new Guid();
+        var orderDate = DateTime.Now;
+
+        WriteLine($"Total: {products.Sum(product => product.Price * product.Units)}");
+        var order = new Order(id, client, products, orderDate, null);
+        _sys.AddOrder(order);
+    });
+
+    private void RemoveOrder() => withDefaultHandler(() => {
+        var orders = _sys.Orders
+            .Select(_mapper.MapOrders)
+            .Select(order => order.ToString())
+            .ToList();
+
+        _view.TryGetListItem("Pedidos", orders, "Selecciona un pedido");
+
+
+    });
 
     private void ShowIncome()
     {}

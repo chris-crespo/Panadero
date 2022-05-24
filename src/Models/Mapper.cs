@@ -7,4 +7,8 @@ public class Mapper
 
     public AssistantProductDTO MapProductForAssistant(Product product)
         => new AssistantProductDTO(product.Name, product.Price);
+
+    public OrderDTO MapOrder(Order order)
+        => new OrderDTO(order.Id, order.Client, order.OrderDate);
+
 }

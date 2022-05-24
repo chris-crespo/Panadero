@@ -4,10 +4,11 @@ using Panadero.Data;
 using Panadero.Models;
 
 var productRepo = new ProductRepo();
+var orderRepo = new OrderRepo();
 
 var view = new View();
- var mapper = new Mapper();
-var system = new Sys(productRepo);
+var mapper = new Mapper();
+var system = new Sys(productRepo, orderRepo);
 var controller = new Controller(view, system, mapper);
 
 #if !check

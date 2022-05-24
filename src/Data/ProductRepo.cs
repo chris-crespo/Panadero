@@ -1,3 +1,4 @@
+using System.Linq;
 using Panadero.Models;
 
 namespace Panadero.Data;
@@ -9,9 +10,7 @@ public class ProductRepo : IRepository<Product>
     public void Save(List<Product> products)
     {
         var header = "Nombre,Precio,Unidades";
-        var data   = new List<string>() { header };
-        products.ForEach(product => data.Add(product.ToString()));
-        File.WriteAllLines(_file, data);
+        File.WriteAllLines(_file, products.Select(p => p.ToString()).Prepend(header));
     }
 
     public List<Product> Read()
