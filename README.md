@@ -2,7 +2,7 @@
 
 ## Diagramas
 ### Casos de Uso de Negocio
-![Casos de Uso de Negocio](img/negocio.PNG')
+![Casos de Uso de Negocio](img/negocio.PNG)
 
 ### Diagrama de Actividad
 ![Diagrama de Actividad](img/Actividad.PNG)
