@@ -12,5 +12,5 @@ public class Mapper
         => new OrderDTO(order.Id, order.Client, order.OrderDate);
 
     public SaleDTO MapSale(Sale sale)
-        => new SaleDTO(sale.Product, sale.Units, sale.Price);
+        => new SaleDTO(sale.Product, sale.Units, sale.Price, sale.Date);
 }

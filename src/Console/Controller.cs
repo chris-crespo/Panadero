@@ -198,6 +198,8 @@ public class Controller
 
         var dailyOrders = _sys.Orders
             .Where(order => order.DeliverDate == null)
+            .SelectMany(order => Enumerable.Range(0, (DateTime.Now - order.OrderDate).Days)
+                .Select(i => order with { DeliverDate = order.OrderDate.AddDays(i) }))
             .SelectMany(salesFromOrder);
 
         var nonDailyOrders = _sys.Orders
@@ -207,6 +209,7 @@ public class Controller
 
         var all = sales.Concat(dailyOrders).Concat(nonDailyOrders)
             .Select(_mapper.MapSale)
+            .OrderBy(sale => sale.Date)
             .ToList();
 
         if (all.Count() == 0)
@@ -214,7 +217,7 @@ public class Controller
         else 
         {
             _view.ShowList("Ingresos del mes", all);
-            _view.Show($"Total: {all.Sum(sale => sale.Price)}");
+            _view.Show($"Total: {all.Sum(sale => sale.Price)}€");
         }
     });
 }
