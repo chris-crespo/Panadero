@@ -2,7 +2,7 @@
 
 ## Diagramas
 ### Casos de Uso de Negocio
-![Casos de Uso de Negocio](img/'Casos de uso de negocio.PNG')
+![Casos de Uso de Negocio](img/negocio.PNG')
 
 ### Diagrama de Actividad
 ![Diagrama de Actividad](img/Actividad.PNG)
@@ -11,7 +11,7 @@
 ![Diagrama de Estado](img/Estado.PNG)
 
 ### Casos de Uso del Sistema
-![Casos de Uso del Sistema](img/'Casos de uso del sistema.PNG')
+![Casos de Uso del Sistema](img/sistema.PNG')
 
 ### Diagrama de Secuencia
 ![Diagrama de Secuencia](img/Secuencia.PNG)
@@ -41,13 +41,13 @@ al pedido.
 
 ## Capturas
 ![Menu](img/menu.jpg)
-![Menu Panadero](img/bmenu.jpg)
-![Añadir Producto](img/addp.jpg)
-![Eliminar Product](img/removep.jgp)
-![Mostrar Producción](img/bshow.jpg)
+![Menu Panadero](img/bmenu.jpg)  
+![Añadir Producto](img/addp.jpg)  
+![Eliminar Product](img/removep.jgp)  
+![Mostrar Producción](img/bshow.jpg)  
 
-![Menu Dependienta](img/amenu.jpg)
-![Vender Producto](img/sell.jpg)
-![Añadir Pedido](img/addp.jpg)
-![Eliminar Pedido](img/removep.jpg)
-![Mostrar Ingresos](img/ing.jpg)
+![Menu Dependienta](img/amenu.jpg)  
+![Vender Producto](img/sell.jpg)  
+![Añadir Pedido](img/addp.jpg)  
+![Eliminar Pedido](img/removep.jpg)  
+![Mostrar Ingresos](img/ing.jpg)  
