@@ -1,0 +1,36 @@
+[mposteriormente, poder mostrar los ingresos de ese mes.
+[m[93m-[39m Los clientes pueden realizar pedidos para una fecha determinada o pedidos
+[mque se entregarán a diario.
+[m[93m-[39m Todos los pedidos pueden ser encargados para ser entregados a partir del día
+[msiguiente (siempre hay productos disponibles en el pueblo, según el panadero).
+[m[93m-[39m Al parecer la mayoría de clientes pagan los pedidos en el momento de la entrega.
+[mLos que no, siempre pagan uno o dos días después, así que los contamos como
+[msi pagaran el mismo día.
+[m[93m-[39m La Dependienta también nos dice que, a menudo, los clientes les piden productos
+[mque no producen a diario, y que, por lo tanto, debería tener la capacidad de añadirlos
+[mal pedido. 
+
+[m[38:5:224m##[38:5:225m Capturas
+[m[38:5:224m###[38:5:225m Menú
+[m![[38:5:81;4mMenu[39;24m]([95mimg/menu.jpg[39m)
+
+[m[38:5:224m###[38:5:225m Menú Panadero
+[m![[38:5:81;4mMenu Panadero[39;24m]([95mimg/bmenu.jpg[39m)  
+
+[m[38:5:224m###[38:5:225m Añadir Producto
+[m![[38:5:81;4mAñadir Producto[39;24m]([95mimg/addp.jpg[39m)  
+[m                                      
+[m[38:5:224m###[38:5:225m Eliminar Producto[39m                 
+[m![[38:5:81;4mEliminar Product[39;24m]([95mimg/removep.jpg[39m)
+
+[m[38:5:224m###[38:5:225m Mostrar Producción
+[m![[38:5:81;4mMostrar Producción[39;24m]([95mimg/bshow.jpg[39m)  
+
+[m[38:5:224m###[38:5:225m Menú Dependienta[39m                
+[m![[38:5:81;4mMenu Dependienta[39;24m]([95mimg/amenu.jpg[39m)  
+
+[m[38:5:224m###[38:5:225m Vender Producto
+[m![[38:5:81;4mVender Producto[39;24m]([95mimg/sell.jpg[39m)  
+[m                                
+[m[1;7mREADME.md [+]                                                                                   62,1           90%
+[m                                                                                                         

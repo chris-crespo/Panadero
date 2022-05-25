@@ -40,14 +40,32 @@ que no producen a diario, y que, por lo tanto, debería tener la capacidad de a�
 al pedido. 
 
 ## Capturas
+### Menú
 ![Menu](img/menu.jpg)
+
+### Menú Panadero
 ![Menu Panadero](img/bmenu.jpg)  
+
+### Añadir Producto
 ![Añadir Producto](img/addp.jpg)  
-![Eliminar Product](img/removep.jgp)  
+
+### Eliminar Producto
+![Eliminar Product](img/removep.jpg)  
+
+### Mostrar Producción
 ![Mostrar Producción](img/bshow.jpg)  
 
+### Menú Dependienta
 ![Menu Dependienta](img/amenu.jpg)  
+
+### Vender Producto
 ![Vender Producto](img/sell.jpg)  
+
+### Añadir Pedido
 ![Añadir Pedido](img/addp.jpg)  
+
+### Eliminar Pedido
 ![Eliminar Pedido](img/removep.jpg)  
+
+### Mostrar Ingresos
 ![Mostrar Ingresos](img/ing.jpg)  
