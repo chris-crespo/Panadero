@@ -44,6 +44,7 @@ public class Sys
         var sale = new Sale(name, units, price, DateTime.Now);
 
         Sales.Add(sale);
+        SaleRepo.Save(Sales);
 
         return product!.Price * units;
     }

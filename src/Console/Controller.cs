@@ -1,5 +1,6 @@
 using static System.Console;
 using Panadero.Models;
+using Panadero.Extensions;
 
 namespace Panadero.UI.Console;
 
@@ -172,32 +173,43 @@ public class Controller
         }
     });
 
-    private void ShowIncome() => withDefaultHandler(() => {
-        var thisYear = DateTime.Now.Year;
-        var thisMonth = DateTime.Now.Month;
-        var thisDay = DateTime.Now.Day;
+    private bool deliveredThisMonth(Order order)    
+    {
+        var (thisYear, thisMonth, thisDay) = DateTime.Now;
 
+        // DeliverDate nunca debería se null si antes descartamos los pedidos diarios.
+        var (year, month, day) = order.DeliverDate ?? DateTime.Now;
+
+        return year == thisYear && month == thisMonth && day <= thisDay;
+    }
+
+    private IEnumerable<Sale> salesFromOrder(Order order) 
+        => order.Products.Select(product => new Sale(
+            product.Name,
+            product.Units,
+            product.Price * product.Units,
+            order.DeliverDate ?? DateTime.Now
+        ));
+
+    private void ShowIncome() => withDefaultHandler(() => {
+        var (thisYear, thisMonth, thisDay) = DateTime.Now;
         var sales = _sys.Sales
             .Where(sale => sale.Date.Year == thisYear && sale.Date.Month == thisMonth);
 
         var dailyOrders = _sys.Orders
-            
-        var orders = _sys.Orders
-            .Where(order => {
-                var year = order.DeliverDate?.Year;
-                var month = order.DeliverDate?.Month;
-                var day = order.DeliverDate?.Day;
+            .Where(order => order.DeliverDate == null)
+            .SelectMany(salesFromOrder);
 
-                return order.DeliverDate == null year == thisYear && month == thisMonth && day <= thisDay;
-            })
-            .SelectMany(order => order.Products(product => 
-                    new Sale(product.Name, product.Units, product.Price * product.Units)));
+        var nonDailyOrders = _sys.Orders
+            .Where(order => order.DeliverDate != null)
+            .Where(deliveredThisMonth)
+            .SelectMany(salesFromOrder);
 
-        var all = sales.Concat(orders)
+        var all = sales.Concat(dailyOrders).Concat(nonDailyOrders)
             .Select(_mapper.MapSale)
             .ToList();
 
-        if (sales.Count == 0)
+        if (all.Count() == 0)
             _view.Show("Aún no se ha registrado ningún ingreso");
         else 
         {
