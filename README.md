@@ -11,7 +11,7 @@
 ![Diagrama de Estado](img/Estado.PNG)
 
 ### Casos de Uso del Sistema
-![Casos de Uso del Sistema](img/sistema.PNG')
+![Casos de Uso del Sistema](img/sistema.PNG)
 
 ### Diagrama de Secuencia
 ![Diagrama de Secuencia](img/Secuencia.PNG)
